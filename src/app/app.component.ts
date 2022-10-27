@@ -19,12 +19,15 @@ export class AppComponent implements OnInit {
     const searchString = this.searchString.trim().toLowerCase();
     this.filteredAlbums = this.albums.filter(album => album.title.toLowerCase().includes(searchString) || album.artist.toLowerCase().includes(searchString));
   }, 200);
+  isLoading = false;
 
   constructor(private albumService: AlbumService, private modalService: ModalService) { }
 
   async ngOnInit(): Promise<void> {
+    this.isLoading = true;
     this.albums = await this.albumService.getAlbums();
     this.filteredAlbums = this.albums;
+    this.isLoading = false;
   }
 
   get isModalVisible(): boolean {
